@@ -3,6 +3,8 @@ import React, {useState, useEffect} from 'react';
 import { AxiomAnnouncements, Announcement } from '@/lib/data';
 import { api } from '@/lib/api';
 import { PrintEndpoint } from '@/components';
+import prisma from '../lib/prisma';
+
 
 export default function Home() {
   const [announcements, setAnnouncements] = useState<Announcement[]>();
@@ -29,7 +31,7 @@ export default function Home() {
             desc={announcement.desc}
             />
           )
-        }) : ''
+        }) : '' 
       }
     </main>
   )
