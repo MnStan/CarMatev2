@@ -16,12 +16,12 @@ model User {
   email String
   password String
   enabled Boolean
-  creation_date DateTime @default(now())
+  creation_date DateTime
   cars Car[]
 }
 
 model User_info {
-  user_info_id Int @default(autoincrement()) @id
+  user_info_id Int @id
   name String
   surname String
   phone String
@@ -51,7 +51,7 @@ model Car {
   car_infoID Car_info @relation(fields: [car_info_id], references: [car_info_id])
   car_info_id Int
   active Boolean
-  creation_date DateTime @default(now())
+  creation_date DateTime
   carCity car_city[]
 }
 

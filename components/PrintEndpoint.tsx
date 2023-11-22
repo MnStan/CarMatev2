@@ -1,12 +1,11 @@
 import React from 'react'
-import {Announcement} from '@/lib/data'
+import {User} from '@/lib/data'
 
-const PrintEndpoint = ({id, title, desc}: Announcement) => {
+const PrintEndpoint = ({id, email}: User) => {
     return (
-      <div className="m-5 p-5 bg-gray-300 w-auto lg:w-1/2 flex justify-center" key={id}>
+      <div className="m-5 p-5 bg-gray-300 w-auto lg:w-1/2 flex justify-center" key={1}>
         <h2>id: {id}</h2>
-        <h2>title: {title}</h2>
-        <h2>desc: {desc}</h2>
+        <h2>title: {email}</h2>
       </div>
     )
   }
