@@ -16,7 +16,7 @@ model User {
   email String
   password String
   enabled Boolean
-  creation_date DateTime
+  creation_date DateTime @default(now())
   cars Car[]
 }
 
@@ -51,7 +51,7 @@ model Car {
   car_infoID Car_info @relation(fields: [car_info_id], references: [car_info_id])
   car_info_id Int
   active Boolean
-  creation_date DateTime
+  creation_date DateTime @default(now())
   carCity car_city[]
 }
 
