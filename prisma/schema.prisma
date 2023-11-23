@@ -1,0 +1,86 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  user_id Int @default(autoincrement()) @id
+  privilege Privilege @relation(fields: [privilege_id], references: [privilege_id])
+  privilege_id Int
+  user_info User_info @relation(fields: [user_info_id], references: [user_info_id])
+  user_info_id Int
+  email String
+  password String
+  enabled Boolean
+  creation_date DateTime @default(now())
+  cars Car[]
+}
+
+model User_info {
+  user_info_id Int @id
+  name String
+  surname String
+  phone String
+  address String
+  users User[]
+  users_city_info User_city_info[]
+}
+
+model User_city_info {
+  user_info User_info @relation(fields: [user_info_id], references: [user_info_id])
+  user_info_id Int @unique
+  cityid City @relation(fields: [city_id], references: [city_id])
+  city_id Int
+}
+
+model City {
+  city_id Int @default(autoincrement()) @id
+  name String
+  users_city_info User_city_info[]
+  carCity car_city[]
+}
+
+model Car {
+  car_id Int @default(autoincrement()) @id
+  userId User @relation(fields: [user_id], references: [user_id])
+  user_id Int
+  car_infoID Car_info @relation(fields: [car_info_id], references: [car_info_id])
+  car_info_id Int
+  active Boolean
+  creation_date DateTime @default(now())
+  carCity car_city[]
+}
+
+model car_city {
+  carId Car @relation(fields: [car_id], references: [car_id])
+  car_id Int @unique
+  cityId City @relation(fields: [city_id], references: [city_id])
+  city_id Int @unique
+}
+
+model Car_info {
+  car_info_id Int @default(autoincrement()) @id
+  name String
+  description String
+  directory_url String
+  avatar_url String
+  cars Car[]
+  photos Photo[]
+}
+
+model Privilege {
+  privilege_id Int @default(autoincrement()) @id
+  name String
+  users User[]
+}
+
+model Photo {
+  photo_id Int @default(autoincrement()) @id
+  car_infoId Car_info @relation(fields: [car_info_id], references: [car_info_id])
+  car_info_id Int
+  photo_url String
+}
