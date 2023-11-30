@@ -7,7 +7,7 @@ import { UserInfo } from '@/lib/data';
 
 export async function getUserInfo(id: string) {
     try {
-      const response = await axios.get(`http://localhost:3000/api/users/${id}`);
+      const response = await axios.get(`http://localhost:3000/api/user/${id}`);
       return response.data.data;
     } catch (error) {
       console.error(error);
