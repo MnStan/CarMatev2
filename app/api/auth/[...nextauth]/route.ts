@@ -8,6 +8,9 @@ import Email from 'next-auth/providers/email'
 import { use } from 'react'
 
 export const authOptions: NextAuthOptions = {
+  pages: {
+    signIn: '/login'
+  },
   session: {
     strategy: 'jwt'
   },
