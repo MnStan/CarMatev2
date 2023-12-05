@@ -16,8 +16,6 @@ export default function LoginPage() {
           </Link>{' '}
         </p>
       </div>
-      <div className="w-1/2 p-12 flex items-center justify-center">
-      </div>
     </div>
   )
 }
