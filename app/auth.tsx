@@ -1,11 +1,35 @@
 'use client'
 
-import { signIn, signOut } from "next-auth/react"
-
 export const LoginButton = () => {
-    return <button onClick={() => signIn()}>Zaloguj</button>
-}
+    const login = async () => {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        // Dodaj tutaj inne opcje, takie jak nagłówki lub dane formularza
+      });
+  
+      if (res.ok) {
+        // Zalogowano pomyślnie
+      } else {
+        // Obsłuż błąd logowania
+      }
+    };
+  
+    return <button onClick={login}>Zaloguj</button>;
+  };
 
 export const LogoutButton = () => {
-    return <button onClick={() => signOut()}>Wyloguj</button>
-}
+    const logout = async () => {
+      const res = await fetch('/api/auth/logout', {
+        method: 'POST',
+        // Dodaj tutaj inne opcje, takie jak nagłówki
+      });
+  
+      if (res.ok) {
+        // Wylogowano pomyślnie
+      } else {
+        // Obsłuż błąd wylogowania
+      }
+    };
+  
+    return <button onClick={logout}>Wyloguj</button>;
+  };

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { verifyJWT } from "./lib/token";
-import { getErrorResponse } from "./lib/helpers";
+import { verifyJWT } from "../lib/token";
+import { getErrorResponse } from "../lib/helpers";
 
 interface AuthenticatedRequest extends NextRequest {
   user: {
