@@ -1,23 +1,31 @@
-import { SignJWT, jwtVerify } from "jose"
+import { JWSHeaderParameters, SignJWT, jwtVerify } from "jose"
 import { getEnvVariable } from "./helpers";
+import { JWTExpired, JWTInvalid } from "jose/errors";
+import { decodeProtectedHeader } from "jose";
+import { cookies } from "next/headers";
 
 export const signJWT = async (
-    payload: { sub: string },
-    options: { exp: string }
-  ) => {
-    try {
-      const secret = new TextEncoder().encode(getEnvVariable("JWT_SECRET_KEY"));
-      const alg = "HS256";
-      return new SignJWT(payload)
-        .setProtectedHeader({ alg })
-        .setExpirationTime(options.exp)
-        .setIssuedAt()
-        .setSubject(payload.sub)
-        .sign(secret);
-    } catch (error) {
-      throw error;
+  payload: { sub: string },
+  options: { exp: string, type: 'access' | 'refresh' }
+) => {
+  try {
+    const secret = new TextEncoder().encode(process.env.JWT_SECRET_KEY);
+    const alg = "HS256";
+    const jwt = new SignJWT(payload)
+      .setProtectedHeader({ alg })
+      .setExpirationTime(options.exp)
+      .setIssuedAt()
+      .setSubject(payload.sub);
+      
+    if (options.type === 'refresh') {
+      jwt.setIssuer('refresh-token-issuer');
     }
-  };
+    
+    return jwt.sign(secret);
+  } catch (error) {
+    throw error;
+  }
+};
   
   export const verifyJWT = async <T>(token: string): Promise<T> => {
     try {
@@ -28,8 +36,13 @@ export const signJWT = async (
         )
       ).payload as T;
     } catch (error) {
-      console.log(error);
-      throw new Error("Your token has expired.");
+      if (error instanceof JWTExpired) {
+        throw new Error("Your token has expired.");
+      } else if (error instanceof JWTInvalid) {
+        throw new Error("Your token is invalid.");
+      } else {
+        throw new Error("An unknown error occurred.");
+      }
     }
   };
-  
+

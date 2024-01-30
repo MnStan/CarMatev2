@@ -18,35 +18,6 @@ import useStore from "@/store";
 import { handleApiError } from "@/lib/helpers";
 import { toast } from "react-hot-toast";
 
-// export const Form = () => {
-//   const router = useRouter()
-//   const searchParams = useSearchParams()
-//   const callbackUrl = searchParams.get('callbackUrl') || '/'
-//   const [email, setEmail] = useState('')
-//   const [password, setPassword] = useState('')
-//   const [error, setError] = useState('')
-
-  // async function loginUser(credentials: { email: string; password: string }) {
-  //   const res = await fetch('/api/auth/login', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json'
-  //     },
-  //     body: JSON.stringify(credentials)
-  //   }).then((res) => res.json())
-
-  //   if (!res?.error) {
-  //     router.push(callbackUrl)
-  //   } else {
-  //     setError('Invalid email or password')
-  //   }
-  // }
-
-  // const onSubmitHandler = (e: React.FormEvent) => {
-  //   e.preventDefault()
-  //   loginUser({ email, password })
-  // };
-
   export default function LoginForm() {
     const router = useRouter()
     const searchParams = useSearchParams()
@@ -69,12 +40,10 @@ import { toast } from "react-hot-toast";
         toast.success("Logged in successfully");
         return router.push("/profile");
       } catch (error: any) {
-        console.log(error);
         if (error instanceof Error) {
           handleApiError(error);
         } else {
           toast.error(error.message);
-          console.log("Error message:", error.message);
         }
       } finally {
         store.setRequestLoading(false);

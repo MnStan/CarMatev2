@@ -17,6 +17,11 @@ export async function GET(req: NextRequest) {
       value: "",
       maxAge: -1,
     }),
+    response.cookies.set({
+      name: "refreshToken",
+      value: "",
+      maxAge: -1,
+    }),
   ]);
 
   return response;

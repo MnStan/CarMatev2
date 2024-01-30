@@ -1,4 +1,6 @@
-import { FilteredUser, UserLoginResponse, UserResponse } from "./types";
+import { NextRequest } from "next/server";
+import { FilteredUser, FilteredUserInformations, UserLoginResponse, UserResponse } from "./types";
+import { verifyJWT } from "./token";
 
 const SERVER_ENDPOINT = process.env.SERVER_ENDPOINT || "http://localhost:3000";
 
@@ -58,7 +60,7 @@ export async function apiLogoutUser(): Promise<void> {
   return handleResponse<void>(response);
 }
 
-export async function apiGetAuthUser(token?: string): Promise<FilteredUser> {
+export async function apiGetAuthUser(token?: string): Promise<FilteredUserInformations> {
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
   };
@@ -72,5 +74,37 @@ export async function apiGetAuthUser(token?: string): Promise<FilteredUser> {
     headers,
   });
 
-  return handleResponse<UserResponse>(response).then((data) => data.data.user);
+  return handleResponse<UserResponse>(response).then((data) => data.data);
+}
+
+export async function apiRefreshAccessToken(refreshToken: string): Promise<{token: string, expiresIn: number}> {
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+  };
+
+  if (refreshToken) {
+    headers["RefreshAuthorization"] = `Bearer ${refreshToken}`;
+  }
+
+  try {
+    const response = await fetch(`${SERVER_ENDPOINT}/api/auth/refreshToken`, {
+      method: "POST",
+      credentials: "include",
+      headers
+    });
+
+    if (!response.ok) {
+      throw new Error('Refresh token is invalid or expired');
+    }
+
+    return handleResponse<UserLoginResponse>(response).then((data) => {
+      return {
+        token: data.token,
+        expiresIn: data.expiresIn
+      };
+    });
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
 }

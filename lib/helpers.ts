@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { ZodError } from "zod";
 import toast from "react-hot-toast";
 
-type EnvVariableKey = "JWT_SECRET_KEY" | "JWT_EXPIRES_IN";
+type EnvVariableKey = "JWT_SECRET_KEY" | "JWT_EXPIRES_IN" | "REFRESH_EXPIRES_IN";
 
 export function getEnvVariable(key: EnvVariableKey): string {
   const value = process.env[key];
@@ -39,7 +39,6 @@ export function handleApiError(error: Error): void {
     try {
       errorData = JSON.parse(error.message);
     } catch (parseError) {
-      console.log("Error message:", error.message);
       toast.error(error.message);
       return;
     }
@@ -55,15 +54,10 @@ export function handleApiError(error: Error): void {
         if (validationMessages.length > 0) {
           const firstValidationMessage = validationMessages[0];
           toast.error(firstValidationMessage);
-          console.log(
-            `Validation error for ${fieldName}:`,
-            firstValidationMessage
-          );
         }
       });
     }
   } catch (error: any) {
-    console.log("Original error message:", error);
     toast.error(error);
   }
 }

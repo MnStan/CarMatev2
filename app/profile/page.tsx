@@ -2,14 +2,17 @@ import { apiGetAuthUser } from "@/lib/api-requests";
 import { cookies } from "next/headers";
 import { AuthPageInvisible } from "@/lib/protect-page";
 import Header from "@/components/Header";
-import Head from "next/head";
 
-export default async function ProfilePage() {
+async function getToken() {
   const cookieStore = cookies();
   const token = cookieStore.get("token");
+  return token?.value || undefined ;
+}
 
-  const user = await apiGetAuthUser(token?.value);
-console.log(user)
+export default async function ProfilePage() {
+  const tokenValue = await getToken();
+  const user = await apiGetAuthUser(tokenValue);
+
   return (
     <>
     <Header />
@@ -20,9 +23,11 @@ console.log(user)
               Profile Page
             </p>
             <div className="mt-8">
-              <p className="mb-3">Id: {user.user_id}</p>
-              <p className="mb-3">Name: {user.name}</p>
-              <p className="mb-3">Email: {user.email}</p>
+              <p className="mb-3">Id: {user.user.user_id}</p>
+              <p className="mb-3">Email: {user.user.email}</p>
+              <p className="mb-3">Name: {user.userInfo.name}</p>
+              <p className="mb-3">Surname: {user.userInfo.surname}</p>
+              <p className="mb-3 w-80">token: {tokenValue}</p>
             </div>
           </div>
         </div>

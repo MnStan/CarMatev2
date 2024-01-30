@@ -6,8 +6,6 @@ export async function GET(req: NextRequest) {
   const userId = req.headers.get("X-USER-ID");
 
   if (!userId) {
-    console.log(req.headers)
-    console.log("Żadanie nie zawiera nagłówka X-USER-ID")
     return getErrorResponse(
       401,
       "You are not logged in, please provide token to gain access"
@@ -15,9 +13,13 @@ export async function GET(req: NextRequest) {
   }
 
   const user = await prisma.user.findUnique({ where: { user_id: parseInt(userId, 10) } });
+  const userInfo = await prisma.user_info.findUnique({ where: { user_info_id: parseInt(userId, 10) }})
 
   return NextResponse.json({
     status: "success",
-    data: { user: { ...user, password: undefined } },
+    data: {
+      user: { ...user, password: undefined },
+      userInfo: { ...userInfo },
+    },
   });
 }
