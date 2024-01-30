@@ -20,10 +20,9 @@ async function refreshAccessToken(req: NextRequest, response: NextResponse) {
     try {
       const newToken = await apiRefreshAccessToken(refreshToken?.value);
       if (newToken) {
-        // response.headers.set("Authorization", `Bearer ${newToken}`);
+        response.headers.set("Authorization", `Bearer ${newToken}`);
         token = newToken.token;
 
-        // Utwórz nową datę reprezentującą czas wygaśnięcia
         const expiresAt = new Date();
         expiresAt.setSeconds(expiresAt.getSeconds() + newToken.expiresIn);
 
@@ -113,11 +112,10 @@ export async function middleware(req: NextRequest) {
     if (typeof result === 'string') {
       token = result;
     } else {
-      return result; // Returning error response directly
+      return result;
     }
   }
 
-  // Wait for refreshAccessToken to complete before proceeding
   const authResponse = await handleAuthorization(req, response, token);
   return authResponse;
 }

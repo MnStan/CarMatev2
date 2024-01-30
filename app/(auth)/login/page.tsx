@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import Header from "@/components/Header";
 import Head from 'next/head';
 import LoginForm from './form';
+import Footer from '@/components/Footer';
 
 export default function LoginPage() {
   return (
@@ -18,6 +19,8 @@ export default function LoginPage() {
           </Link>{' '}
         </p>
       </div>
-    </div></>
+    </div>
+    <Footer />
+    </>
   )
 }

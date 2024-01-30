@@ -31,22 +31,22 @@ const Header = () => {
               CarMate
             </Link>
           </div>
-          <ul className="flex items-center gap-4">
+          <ul className="hidden sm:flex items-center gap-4">
             <li>
               <Link href="/" className="text-ct-dark-600">
-                Home
+                Strona główna
               </Link>
             </li>
             {!user && (
               <>
                 <li>
                   <Link href="/register" className="text-ct-dark-600">
-                    Register
+                    Rejestracja
                   </Link>
                 </li>
                 <li>
                   <Link href="/login" className="text-ct-dark-600">
-                    Login
+                    Logowanie
                   </Link>
                 </li>
               </>
@@ -55,15 +55,34 @@ const Header = () => {
               <>
                 <li>
                   <Link href="/profile" className="text-ct-dark-600">
-                    Profile
+                    Profil
                   </Link>
                 </li>
                 <li className="cursor-pointer" onClick={handleLogout}>
-                  Logout
+                  Wyloguj
                 </li>
               </>
             )}
           </ul>
+          {/* Ikona menu dla urządzeń mobilnych */}
+          <div className="sm:hidden">
+            <button className="text-ct-dark-600">
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 6h16M4 12h16m-7 6h7"
+                ></path>
+              </svg>
+            </button>
+          </div>
         </nav>
       </header>
     </>
