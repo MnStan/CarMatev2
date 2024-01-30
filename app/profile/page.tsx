@@ -2,6 +2,7 @@ import { apiGetAuthUser } from "@/lib/api-requests";
 import { cookies } from "next/headers";
 import { AuthPageInvisible } from "@/lib/protect-page";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 async function getToken() {
   const cookieStore = cookies();
@@ -32,6 +33,7 @@ export default async function ProfilePage() {
           </div>
         </div>
       </section>
+      <Footer />
     </>
   );
   }
