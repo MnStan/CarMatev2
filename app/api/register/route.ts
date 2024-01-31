@@ -6,7 +6,6 @@ import { v4 as uuidv4 } from 'uuid';
 export async function POST(req: Request) {
     try {
         const {name, surname, email, password, phone, city, address } = await req.json()
-console.log("CITYID" + city)
         const existingUser = await prisma.user.findUnique({
             where: {
                 email: email,
@@ -24,8 +23,6 @@ console.log("CITYID" + city)
         const hashed = await hash(password, 12)
 
         const newUserId = uuidv4();
-
-        console.log(newUserId)
       
         const createdUserInfo = await prisma.user_info.create({
             data: {

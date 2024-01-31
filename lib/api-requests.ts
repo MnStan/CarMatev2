@@ -121,3 +121,26 @@ export async function apiAddCar(credentials: string): Promise<string> {
 
   return handleResponse<UserLoginResponse>(response).then((data) => data.token);
 }
+
+export async function apiAddPhotosInfo(credentials: string) {
+  const response = await fetch(`${SERVER_ENDPOINT}/api/addPhotosInfo`, {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: credentials,
+  });
+
+
+  if (!response.ok) throw new Error(await response.text());
+}
+
+export async function apiUploadPhoto(data: FormData) {
+  const response = await fetch(`${SERVER_ENDPOINT}/api/upload`, {
+    method: "POST",
+    body: data,
+  });
+
+  if (!response.ok) throw new Error(await response.text());
+}

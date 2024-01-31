@@ -9,26 +9,30 @@ import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import useStore from "@/store";
 import { handleApiError } from '@/lib/helpers'
-import { apiAddCar, apiGetAuthUser } from '@/lib/api-requests'
+import { apiAddCar, apiAddPhotosInfo, apiGetAuthUser, apiUploadPhoto } from '@/lib/api-requests'
 import { toast } from "react-hot-toast";
 import { useRouter, useSearchParams } from 'next/navigation'
 import { error } from 'console'
 import { DessertIcon } from 'lucide-react'
 import { Alert } from '@/components/ui/alert'
 import { Crete_Round } from 'next/font/google'
+import { v4 as uuidv4 } from 'uuid'
 
 export default function AddCarForm() {
   const [vehicleName, setVehicleName] = useState('')
   const [cities, setCities] = useState<City[]>();
   const [city, setCity] = useState<string | null>(null);
   const [description, setDescription] = useState<string>('')
-  const [avatar, setMainImage] = useState<File | null>(null)
-  const [directory_url, setAdditionalImages] = useState<File[]>([])
+  const [avatar, setMainImage] = useState<File>()
+  const [imageId, setImageId] = useState<string>('')
+  const [directory_url, setDirectory] = useState<string>('')
+  const [additional_images, setAdditionalImages] = useState<File[]>([])
+  const [additionalName, setAdditionalName] = useState<string>('')
   const [error, setError] = useState<string | null>(null);
   const store = useStore();
   const router = useRouter()
 
-  async function AddCarFunction(credentials: { vehicleName: string; city: string, description: string, directory_url: string, avatar: string, user_id: string }) {
+  async function AddCarFunction(credentials: { vehicleName: string; city: string, description: string, directory_url: string, avatar: string, user_id: string, car_info_id: string }) {
     store.setRequestLoading(true);
   
     try {
@@ -47,50 +51,83 @@ export default function AddCarForm() {
     }
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-
-    const user = store.authUser?.user_id
-
-    if (vehicleName === '') {
-      setError(("Proszę uzupełnić nazwę pojazdu"))
-      return
-    }
-
-    if (city === null) {
-      setError(("Proszę wybrać miasto!"))
-      return
-    }
-
-    if (user) {
-    AddCarFunction({
-      vehicleName: vehicleName,
-      city: city,
-      description: description,
-      directory_url: "mainImage",
-      avatar: "",
-      user_id: user
-    })
-  } else {
-    setError(("Proszę wybrać miasto!"))
-  }
-  }
-
   const mainImageInputRef = useRef<HTMLInputElement>(null)
   const additionalImagesInputRef = useRef<HTMLInputElement>(null)
 
   const handleMainImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.length) {
-      setMainImage(e.target.files[0])
+      setMainImage(e.target.files[0]);
     }
-  }
-
+  };
+  
   const handleAdditionalImagesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.length) {
-      setAdditionalImages(Array.from(e.target.files))
+      setAdditionalImages(Array.from(e.target.files));
     }
-  }
+  };
+  
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+  
+    const user = store.authUser?.user_id;
+  
+    if (vehicleName === '') {
+      setError("Proszę uzupełnić nazwę pojazdu");
+      return;
+    }
+  
+    if (city === null) {
+      setError("Proszę wybrać miasto!");
+      return;
+    }
+  
+    if (user) {
+      try {
+        const directory = uuidv4();
+        setDirectory(directory)
+        const carInfoId = uuidv4()
+  
+        await AddCarFunction({
+          vehicleName: vehicleName,
+          city: city,
+          description: description,
+          directory_url: directory,
+          avatar: "",
+          user_id: user,
+          car_info_id: carInfoId
+        });
 
+        if (avatar) {
+          await uploadImage(avatar, carInfoId, directory);
+        }
+  
+        for (const image of additional_images) {
+          await uploadImage(image, carInfoId, directory);
+        }
+      } catch (error: any) {
+        if (error instanceof Error) {
+          handleApiError(error);
+        } else {
+          toast.error(error.message);
+        }
+      }
+    } else {
+      setError("Proszę wybrać miasto!");
+    }
+  };
+  
+  const uploadImage = async (image: File, carInfoId: string,  directory: string) => {
+    const data = new FormData();
+    const imageId = uuidv4();
+
+    data.append('file', image);
+    data.append('imageId', imageId);
+    data.append('directory', directory)
+
+    await apiAddPhotosInfo(JSON.stringify({ photo_id: imageId, car_info_id: carInfoId, photo_url: directory }))
+
+    await apiUploadPhoto(data)
+  };
   useEffect(() => {
     fetch("/api/cities")
       .then((response) => response.json())
@@ -123,7 +160,7 @@ export default function AddCarForm() {
         />
         DODAJ ZDJĘCIA
       </Button>
-      {directory_url.map((image, index) => (
+      {additional_images.map((image, index) => (
         <Image key={index} src={URL.createObjectURL(image)} alt={`Podgląd zdjęcia ${index + 1}`} width={500} height={300} />
       ))}
       

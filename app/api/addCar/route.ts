@@ -4,15 +4,14 @@ import { v4 as uuidv4 } from 'uuid'
 
 export async function POST(req: Request) {
     try {
-        const { vehicleName, city, description, directory_url, avatar, user_id } = await req.json()
+        const { vehicleName, city, description, directory_url, avatar, user_id, car_info_id } = await req.json()
 
         const carId = uuidv4();
-        const carInfoId = uuidv4();
         const carCityid = uuidv4();
       
         const createdCarInfo = await prisma.car_info.create({
             data: {
-              car_info_id: carInfoId,
+              car_info_id: car_info_id,
               name: vehicleName,
               description,
               directory_url: avatar,
