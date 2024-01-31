@@ -108,3 +108,16 @@ export async function apiRefreshAccessToken(refreshToken: string): Promise<{toke
     throw error;
   }
 }
+
+export async function apiAddCar(credentials: string): Promise<string> {
+  const response = await fetch(`${SERVER_ENDPOINT}/api/addCar`, {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: credentials,
+  });
+
+  return handleResponse<UserLoginResponse>(response).then((data) => data.token);
+}

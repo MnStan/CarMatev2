@@ -57,10 +57,11 @@ model Car {
 }
 
 model car_city {
+  car_city_id String @id @default(uuid())
   carId Car @relation(fields: [car_id], references: [car_id])
-  car_id String @unique
+  car_id String
   cityId City @relation(fields: [city_id], references: [city_id])
-  city_id String @unique
+  city_id String
 }
 
 model Car_info {

@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import Link from "next/link";
 import useSession from "@/lib/useSession";
@@ -17,7 +17,7 @@ const Header = () => {
       await apiLogoutUser();
     } catch (error) {
     } finally {
-      store.reset();
+      store.reset()
       router.push("/login");
     }
   };
