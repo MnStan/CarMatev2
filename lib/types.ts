@@ -29,3 +29,7 @@ export interface UserResponse {
     expiresIn: number;
   }
   
+  interface City {
+    city_id: number;
+    name: string;
+  }

@@ -12,8 +12,8 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  const user = await prisma.user.findUnique({ where: { user_id: parseInt(userId, 10) } });
-  const userInfo = await prisma.user_info.findUnique({ where: { user_info_id: parseInt(userId, 10) }})
+  const user = await prisma.user.findUnique({ where: { user_id: userId } });
+  const userInfo = await prisma.user_info.findUnique({ where: { user_info_id: userId }})
 
   return NextResponse.json({
     status: "success",

@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  const user = await prisma.user.findUnique({ where: { user_id: parseInt(userId, 10) } });
+  const user = await prisma.user.findUnique({ where : { user_id: userId }})
 
   return NextResponse.json({
     status: "success",

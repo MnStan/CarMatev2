@@ -1,12 +1,12 @@
 import { prisma } from '@/lib/prisma'
 import { hash } from 'bcrypt'
 import { NextResponse } from 'next/server'
-import { number } from 'zod'
+import { v4 as uuidv4 } from 'uuid';
 
 export async function POST(req: Request) {
     try {
         const {name, surname, email, password, phone, city, address } = await req.json()
-
+console.log("CITYID" + city)
         const existingUser = await prisma.user.findUnique({
             where: {
                 email: email,
@@ -23,29 +23,23 @@ export async function POST(req: Request) {
 
         const hashed = await hash(password, 12)
 
-        const lastUserId = await prisma.user.findFirst({
-            select: {
-              user_id: true,
-            },
-            orderBy: {
-              user_id: 'desc',
-            },
-          });
+        const newUserId = uuidv4();
+
+        console.log(newUserId)
       
-          const nextUserId = lastUserId ? lastUserId.user_id + 1 : 1;
-      
-          const createdUserInfo = await prisma.user_info.create({
+        const createdUserInfo = await prisma.user_info.create({
             data: {
-              user_info_id: nextUserId,
+              user_info_id: newUserId,
               name,
               surname,
               phone,
               address,
             },
-          });
+        });
       
-          const createdUser = await prisma.user.create({
+        const createdUser = await prisma.user.create({
             data: {
+              user_id: newUserId,
               email,
               password: hashed,
               enabled: true,
@@ -53,23 +47,23 @@ export async function POST(req: Request) {
                 connect: { privilege_id: 2 },
               },
               user_info: {
-                connect: { user_info_id: createdUserInfo.user_info_id },
+                connect: { user_info_id: newUserId },
               },
             },
-          })
+        })
 
-          const createdUserCityInfo = await prisma.user_city_info.create({
+        const createdUserCityInfo = await prisma.user_city_info.create({
             data: {
               user_info: {
-                connect: { user_info_id: createdUserInfo.user_info_id },
+                connect: { user_info_id: newUserId },
               },
               cityid: {
-                connect: { city_id: parseInt(city, 10) },
+                connect: { city_id: city },
               },
             },
-          });
+        });
           
-          return new NextResponse(
+        return new NextResponse(
             JSON.stringify({
                 message: 'Użytkownik został pomyślnie utworzony'
             }), { status: 200 }

@@ -54,6 +54,11 @@ const Header = () => {
             {user && (
               <>
                 <li>
+                  <Link href="/addCar" className="text-ct-dark-600">
+                    Dodaj ogłoszenie
+                  </Link>
+                </li>
+                <li>
                   <Link href="/profile" className="text-ct-dark-600">
                     Profil
                   </Link>
