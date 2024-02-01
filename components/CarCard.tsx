@@ -32,7 +32,7 @@ const CarComponent: React.FC<CarComponentProps> = ({ apiEndpoint, label, href })
 
   return (
     <div className="flex items-center justify-center py-2">
-      <div className="bg-gray-200 rounded-xl p-5 w-full sm:max-w-sm lg:max-w-xl h-64 flex flex-col items-center justify-center">
+      <div className="bg-gray-200 rounded-xl p-5 w-full max-w-sm sm:w-2/3 md:max-w-2/3 lg:max-w-xl h-64 flex flex-col items-center justify-center">
         <Link href={href} className='contents'>
           <Image src={carData.imageUrl} alt={carData.label} width={160} height={90} className="w-full h-full object-contain"/>
         </Link>

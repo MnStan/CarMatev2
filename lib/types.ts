@@ -36,7 +36,7 @@ export interface UserResponse {
 
 export interface CarData {
     photos: { photo_url: string, photo_id: string }[];
-    user_info: { name: string; address: string };
+    user_info: { name: string; address: string, phone: string };
     name: string;
     description: string;
   }
