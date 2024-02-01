@@ -5,6 +5,44 @@ import { compare } from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
 import { ZodError } from "zod";
 
+/**
+ * @swagger
+ * /api/auth/login:
+ *   post:
+ *     description: Authenticates a user and returns JWT tokens
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Authentication successful
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                 token:
+ *                   type: string
+ *                 refreshToken:
+ *                   type: string
+ *       401:
+ *         description: Invalid email or password
+ *       400:
+ *         description: Failed validations
+ *       500:
+ *         description: Server error
+ */
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()

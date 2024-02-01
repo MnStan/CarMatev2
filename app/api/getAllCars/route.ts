@@ -2,6 +2,51 @@ import { getErrorResponse } from "@/lib/helpers";
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
+/**
+ * @swagger
+ * /api/getAllCars:
+ *   get:
+ *     description: Pobiera informacje o wszystkich samochodach wraz z ich zdjęciami.
+ *     responses:
+ *       200:
+ *         description: Pomyślnie pobrano informacje o samochodach.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       car_id:
+ *                         type: string
+ *                       name:
+ *                         type: string
+ *                       photos:
+ *                         type: array
+ *                         items:
+ *                           type: object
+ *                           properties:
+ *                             photo_id:
+ *                               type: string
+ *                             photo_url:
+ *                               type: string
+ *       500:
+ *         description: Wystąpił błąd serwera podczas pobierania danych.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ */
+
+
 export async function GET(req: NextRequest) {
   try {
     const cars = await prisma.car.findMany({

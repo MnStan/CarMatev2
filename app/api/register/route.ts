@@ -3,6 +3,63 @@ import { hash } from 'bcrypt'
 import { NextResponse } from 'next/server'
 import { v4 as uuidv4 } from 'uuid';
 
+/**
+ * @swagger
+ * /api/register:
+ *   post:
+ *     description: Rejestruje nowego użytkownika.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               surname:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *               phone:
+ *                 type: string
+ *               city:
+ *                 type: number
+ *               address:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Pomyślnie utworzono użytkownika.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *       400:
+ *         description: Użytkownik o podanym adresie email już istnieje.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *       500:
+ *         description: Błąd serwera podczas tworzenia użytkownika.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ */
+
+
 export async function POST(req: Request) {
     try {
         const {name, surname, email, password, phone, city, address } = await req.json()
