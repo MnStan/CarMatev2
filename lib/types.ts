@@ -33,3 +33,10 @@ export interface UserResponse {
     city_id: number;
     name: string;
   }
+
+export interface CarData {
+    photos: { photo_url: string, photo_id: string }[];
+    user_info: { name: string; address: string };
+    name: string;
+    description: string;
+  }

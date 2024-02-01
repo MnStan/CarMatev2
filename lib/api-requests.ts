@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import { FilteredUser, FilteredUserInformations, UserLoginResponse, UserResponse } from "./types";
 import { verifyJWT } from "./token";
+import { CarData } from "../lib/types"
 
 const SERVER_ENDPOINT = process.env.SERVER_ENDPOINT || "http://localhost:3000";
 
@@ -143,4 +144,23 @@ export async function apiUploadPhoto(data: FormData) {
   });
 
   if (!response.ok) throw new Error(await response.text());
+}
+
+export async function apiGetCarData(carId: string): Promise<CarData> {
+  const response = await fetch(`${SERVER_ENDPOINT}/api/getCar/${carId}`);
+  return handleResponse<CarData>(response);
+}
+
+export async function apiGetImage(params: {path: string, photo_id: string}) {
+  const image_name = params.path;
+  const photo_id = params.photo_id;
+
+  const response = await fetch(`${SERVER_ENDPOINT}/api/image/${image_name}/${photo_id}`);
+
+  if (!response.ok) throw new Error(await response.text());
+
+  const blob = await response.blob();
+  const url = URL.createObjectURL(blob);
+
+  return url;
 }

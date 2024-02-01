@@ -1,9 +1,11 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 
 interface CarComponentProps {
   apiEndpoint: string;
   label: string;
+  href: string; // Dodajemy nową właściwość do naszych propsów
 }
 
 interface CarData {
@@ -11,7 +13,7 @@ interface CarData {
   label: string;
 }
 
-const CarComponent: React.FC<CarComponentProps> = ({ apiEndpoint, label }) => {
+const CarComponent: React.FC<CarComponentProps> = ({ apiEndpoint, label, href }) => {
   const [carData, setCarData] = useState<CarData | null>(null);
 
   useEffect(() => {
@@ -29,12 +31,14 @@ const CarComponent: React.FC<CarComponentProps> = ({ apiEndpoint, label }) => {
   }
 
   return (
-<div className="flex items-center justify-center py-2">
-  <div className="bg-gray-200 rounded-xl p-5 w-full sm:max-w-sm lg:max-w-xl h-64 flex flex-col items-center justify-center">
-    <Image src={carData.imageUrl} alt={carData.label} width={160} height={90} className="w-full h-full object-contain" />
-    <p className="mt-2 text-center">{label}</p>
-  </div>
-</div>
+    <div className="flex items-center justify-center py-2">
+      <div className="bg-gray-200 rounded-xl p-5 w-full sm:max-w-sm lg:max-w-xl h-64 flex flex-col items-center justify-center">
+        <Link href={href} className='contents'>
+          <Image src={carData.imageUrl} alt={carData.label} width={160} height={90} className="w-full h-full object-contain"/>
+        </Link>
+        <p className="mt-2 text-center">{label}</p>
+      </div>
+    </div>
   )
 }
 

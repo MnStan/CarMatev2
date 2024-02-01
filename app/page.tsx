@@ -8,6 +8,7 @@ import SearchBar from '@/components/ui/search';
 import CarComponent from '@/components/CarCard';
 
 interface Car {
+  car_id: string;
   name: string;
   photos: { photo_id: string, photo_url: string }[];
 }
@@ -27,14 +28,18 @@ export default function HomePage() {
       });
   }, []);
 
+
   return (
     <>
       <Header />
       <SearchBar />
       {cars.map(car => (
-        car.photos.map(photo => (
-          <CarComponent key={photo.photo_id} apiEndpoint={`/api/image/${photo.photo_url}/${photo.photo_id}`} label={car.name}/>
-        ))
+        <CarComponent 
+          key={car.car_id} 
+          apiEndpoint={`/api/image/${car.photos[0]?.photo_url}/${car.photos[0]?.photo_id}`} 
+          label={car.name} 
+          href={`/car/${car.car_id}`}
+        />
       ))}
       <Footer />
     </>

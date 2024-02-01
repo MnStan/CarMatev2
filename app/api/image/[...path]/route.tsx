@@ -5,7 +5,6 @@ import path from 'path';
 export async function GET(request: NextRequest, {params}: {params: {path: string[]}}) {
   let [folder_path, image_name] = params.path;
   image_name = image_name + ".jpg"
-  console.log(folder_path, image_name)
 
   let filePath = path.join(process.cwd(), 'public', folder_path, image_name);
 

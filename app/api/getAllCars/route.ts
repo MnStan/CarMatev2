@@ -20,7 +20,8 @@ export async function GET(req: NextRequest) {
       }
     })
 
-    const result = cars.map((car: { car_infoID: { name: any; photos: any[]; }; }) => ({
+    const result = cars.map((car: { car_id: string, car_infoID: {name: any; photos: any[]; }; }) => ({
+      car_id: car.car_id,
       name: car.car_infoID.name,
       photos: car.car_infoID.photos.map(photo => ({
         photo_id: photo.photo_id,
