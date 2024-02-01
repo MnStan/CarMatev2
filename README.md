@@ -1,36 +1,81 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# CarMate
 
-## Getting Started
+## Cel projektu:
 
-First, run the development server:
+Celem projektu było stworzenie aplikacji pozwalającej uzytkownikom dodawanie oraz przeglądanie ogłoszeń dotyczących wynajmu pojazdów.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Funkcjonalności:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- logowanie
+- rejestracja
+- wylogowywanie
+- przeglądanie ogłoszeń
+- wyświetlanie ogłoszenia
+- wyszukiwanie ogłoszeń
+- dodawanie ogłoszeń
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Diagram ERD Bazy
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+![Alt text](image.png)
 
-## Learn More
+## Figma
 
-To learn more about Next.js, take a look at the following resources:
+[Link FIGMA](https://www.figma.com/file/tK30FC4XitTO8eHh2NIADf/AutoMate?type=design&node-id=0%3A1&mode=design&t=COMCQzptgoD1hKS1-1)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Swagger
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+![Alt text](image-12.png)
 
-## Deploy on Vercel
+## Przykład Działania:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+#### Do rejestracji użytkownik potrzebuje podać imie, nazwisko, adres email, hasło, numer telefonu, miasto oraz adres. Wszystkie pola muszą być wypełnione, aby rejestracja przebiegła pomyślnie.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+![Alt text](image-1.png)
+
+#### Użytkownik może się też zalogować na już istniejące konto.
+
+![Alt text](image-2.png)
+
+#### Po zalogowaniu użytkonik zostaje przeniesiony na stronę głowną 
+
+![Alt text](image-3.png)
+
+#### Na stronie głownej użytkownik może przeglądać dodane ogłoszenia, dodać swoje ogłoszenie lub wyszukać interesującego go modelu przy użyciu wyszukiwarki
+
+![Alt text](image-4.png)
+
+#### Wyszukiwanie:
+
+![Alt text](image-5.png)
+
+#### Użytkownik po kliknięciu w interesujące go ogłoszenie zostaje przeniesiony do strony z informacjami o danym pojeździe takimi jak: zdjęcia pojazdu, informacje o właścicielu, opis
+
+![Alt text](image-6.png)
+
+#### Użytkownik może nacisnąć przycisk "Umów jazdę próbną" po czym wyświetlą mu się informacje kontaktowe do właściciela
+
+![Alt text](image-7.png)
+
+#### Dodanie pojazdu następuje po uzupełnieniu przez użytkownika takich informacji jak: zdjęcie głowne ogłaszanego pojazdu, zdjęcia dodatkowe, nazwę pojazdu, miasto w którym oferowany jest najem oraz opis
+
+![Alt text](image-8.png)
+
+#### Aplikacja posiada również takie podstrony jak regulamin, kontakt czy polityka prywatności strony
+
+![Alt text](image-9.png)
+
+#### Po skorzystaniu z usług aplikacji użytkownik może się wylogować
+
+![Alt text](image-10.png)
+
+#### Aplikacja jest dostosowana do używania jej na komputerach, tabletach oraz telefonach komórkowych
+
+![Alt text](image-11.png)
+
+## Rozwój projektu w przyszłości
+
+- Umożliwienie komunikacji pomiędzy osobą dodającą ogłoszenie i przeglądającą
+- Dodanie możliwości zarezerwowania terminu wypożyczenia pojazdu bezpośrednio w aplikacji
+- Dodanie możliwości moderowania ogłoszeń przez osobę uprawnioną
+- Dodanie profili użytkowników
+
