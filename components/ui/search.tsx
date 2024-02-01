@@ -4,8 +4,18 @@ import React, { useState } from 'react';
 import logo from '../../public/magnifying-glass-solid.svg';
 import Image from 'next/image';
 
-const SearchBar: React.FC = () => {
+interface SearchBarProps {
+  onSearch: (search: string) => void;
+}
+
+const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   const [search, setSearch] = useState<string>('');
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+    console.log(search)
+    onSearch(e.target.value);
+  };
 
   return (
     <div className="flex items-center justify-center py-2">
@@ -18,7 +28,7 @@ const SearchBar: React.FC = () => {
             name="search"
             placeholder="Marka, Model"
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={handleSearch}
           />
           <div className="absolute left-0 top-0 h-full flex items-center pl-3">
           <Image src={logo} alt="Magnifying glass" width={20} height={20} />

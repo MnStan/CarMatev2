@@ -15,6 +15,11 @@ interface Car {
 
 export default function HomePage() {
   const [cars, setCars] = useState<Car[]>([]);
+  const [search, setSearch] = useState<string>('');
+
+  const filteredCars = cars.filter(car => 
+  car.name.toLowerCase().includes(search.toLowerCase())
+  );
 
   useEffect(() => {
     axios.get('/api/getAllCars')
@@ -32,8 +37,8 @@ export default function HomePage() {
   return (
     <>
       <Header />
-      <SearchBar />
-      {cars.map(car => (
+      <SearchBar onSearch={setSearch} />
+      {filteredCars.map(car => (
         <CarComponent 
           key={car.car_id} 
           apiEndpoint={`/api/image/${car.photos[0]?.photo_url}/${car.photos[0]?.photo_id}`} 
@@ -44,4 +49,4 @@ export default function HomePage() {
       <Footer />
     </>
   )
-}
+      }
