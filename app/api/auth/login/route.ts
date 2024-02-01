@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
     const JWT_EXPIRES_IN = getEnvVariable("JWT_EXPIRES_IN");
 
     const token = await signJWT(
-      { sub: String(user.user_id) },
+      { sub: user.user_id },
       { exp: `${JWT_EXPIRES_IN}m`, type: 'access' }
     );
 
@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
     const REFRESH_EXPIRES_IN = getEnvVariable("REFRESH_EXPIRES_IN")
 
     const refreshToken = await signJWT(
-      { sub: String(user.user_id) },
+      { sub: user.user_id },
       { exp: `${REFRESH_EXPIRES_IN}m`, type: 'refresh' }
     );
 

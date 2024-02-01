@@ -1,12 +1,14 @@
-"use client";
+"use client"
 
 import Link from "next/link";
 import useSession from "@/lib/useSession";
 import useStore from "@/store";
 import { apiLogoutUser } from "@/lib/api-requests";
 import { useRouter } from "next/navigation";
+import { useState } from 'react';
 
 const Header = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const store = useStore();
   const user = useSession();
   const router = useRouter();
@@ -17,7 +19,7 @@ const Header = () => {
       await apiLogoutUser();
     } catch (error) {
     } finally {
-      store.reset();
+      store.reset()
       router.push("/login");
     }
   };
@@ -54,6 +56,11 @@ const Header = () => {
             {user && (
               <>
                 <li>
+                  <Link href="/addCar" className="text-ct-dark-600">
+                    Dodaj ogłoszenie
+                  </Link>
+                </li>
+                <li>
                   <Link href="/profile" className="text-ct-dark-600">
                     Profil
                   </Link>
@@ -64,7 +71,6 @@ const Header = () => {
               </>
             )}
           </ul>
-          {/* Ikona menu dla urządzeń mobilnych */}
           <div className="sm:hidden">
             <button className="text-ct-dark-600">
               <svg

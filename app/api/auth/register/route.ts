@@ -64,7 +64,7 @@ export async function POST(req: Request) {
                 connect: { user_info_id: createdUserInfo.user_info_id },
               },
               cityid: {
-                connect: { city_id: parseInt(city, 10) },
+                connect: { city_id: city },
               },
             },
           });

@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
 
     const payload = await verifyJWT(refreshToken) as { sub: string };
     const user = await prisma.user.findUnique({
-      where: { user_id: Number(payload.sub) },
+      where: { user_id: payload.sub },
     });
 
     if (!user) {
@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
 
     const REFRESH_EXPIRES_IN = getEnvVariable("REFRESH_EXPIRES_IN");
     const token = await signJWT(
-      { sub: String(user.user_id) },
+      { sub: user.user_id },
       { exp: `${REFRESH_EXPIRES_IN}m`, type: 'access' }
     );
 

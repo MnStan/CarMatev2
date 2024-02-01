@@ -16,11 +16,7 @@ import {
 import { FormControl, FormItem, FormLabel } from "@/components/ui/form";
 import { date } from "zod";
 import { useRouter, useSearchParams } from 'next/navigation'
-
-interface City {
-  city_id: number;
-  name: string;
-}
+import { City } from "@prisma/client";
 
 export const RegisterForm = () => {
   const router = useRouter()
@@ -33,7 +29,7 @@ export const RegisterForm = () => {
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
   const [phone, setPhoneNumber] = useState("");
-  const [city, setCity] = useState<number | null>(null);
+  const [city, setCity] = useState<string | null>(null);
   const [address, setAddress] = useState("");
   const [error, setError] = useState<string | null>(null);
 
@@ -154,14 +150,14 @@ export const RegisterForm = () => {
       </div>
       <div className="grid w-full items-center gap-1.5">
       <Label htmlFor="city">Miasto</Label>
-      <Select onValueChange={(value) => setCity(Number(value))}>
+      <Select onValueChange={(value) => setCity(value)}>
         <SelectTrigger>
           <SelectValue placeholder="Miasto" />
         </SelectTrigger>
         <SelectContent>
           {cities
             ? cities.map((city, index) => (
-                <SelectItem key={index} value={city.city_id.toString()}>
+                <SelectItem key={index} value={city.city_id}>
                   {city.name}
                 </SelectItem>
               ))

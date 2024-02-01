@@ -29,3 +29,14 @@ export interface UserResponse {
     expiresIn: number;
   }
   
+  interface City {
+    city_id: number;
+    name: string;
+  }
+
+export interface CarData {
+    photos: { photo_url: string, photo_id: string }[];
+    user_info: { name: string; address: string, phone: string };
+    name: string;
+    description: string;
+  }

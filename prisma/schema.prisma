@@ -9,11 +9,11 @@ datasource db {
 }
 
 model User {
-  user_id Int @default(autoincrement()) @id
+  user_id String @id @default(uuid())
   privilege Privilege @relation(fields: [privilege_id], references: [privilege_id])
   privilege_id Int
   user_info User_info @relation(fields: [user_info_id], references: [user_info_id])
-  user_info_id Int
+  user_info_id String
   email String @unique
   password String
   enabled Boolean
@@ -22,7 +22,7 @@ model User {
 }
 
 model User_info {
-  user_info_id Int @id
+  user_info_id String @id
   name String
   surname String
   phone String
@@ -33,38 +33,39 @@ model User_info {
 
 model User_city_info {
   user_info User_info @relation(fields: [user_info_id], references: [user_info_id])
-  user_info_id Int @unique
+  user_info_id String @unique
   cityid City @relation(fields: [city_id], references: [city_id])
-  city_id Int
+  city_id String
 }
 
 model City {
-  city_id Int @default(autoincrement()) @id
+  city_id String @id @default(uuid())
   name String
   users_city_info User_city_info[]
   carCity car_city[]
 }
 
 model Car {
-  car_id Int @default(autoincrement()) @id
+  car_id String @id @default(uuid())
   userId User @relation(fields: [user_id], references: [user_id])
-  user_id Int
+  user_id String
   car_infoID Car_info @relation(fields: [car_info_id], references: [car_info_id])
-  car_info_id Int
+  car_info_id String
   active Boolean
   creation_date DateTime @default(now())
   carCity car_city[]
 }
 
 model car_city {
+  car_city_id String @id @default(uuid())
   carId Car @relation(fields: [car_id], references: [car_id])
-  car_id Int @unique
+  car_id String
   cityId City @relation(fields: [city_id], references: [city_id])
-  city_id Int @unique
+  city_id String
 }
 
 model Car_info {
-  car_info_id Int @default(autoincrement()) @id
+  car_info_id String @id @default(uuid())
   name String
   description String
   directory_url String
@@ -80,8 +81,8 @@ model Privilege {
 }
 
 model Photo {
-  photo_id Int @default(autoincrement()) @id
+  photo_id String @id @default(uuid())
   car_infoId Car_info @relation(fields: [car_info_id], references: [car_info_id])
-  car_info_id Int
+  car_info_id String
   photo_url String
 }

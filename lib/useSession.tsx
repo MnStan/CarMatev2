@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { use, useEffect } from "react";
 import { apiGetAuthUser } from "./api-requests";
 import useStore from "@/store";
 
@@ -8,7 +8,7 @@ export default function useSession() {
   async function fetchUser() {
     try {
       const user = await apiGetAuthUser();
-      store.setAuthUser(user);
+      store.setAuthUser({ user_id: user.user.user_id, email: user.user.email });
     } catch (error: any) {
       store.reset();
     }
