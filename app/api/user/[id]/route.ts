@@ -3,6 +3,51 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { NextRequest, NextResponse } from "next/server";
 import { use } from "react";
 
+/**
+ * @swagger
+ * /api/user/{id}:
+ *   get:
+ *     description: Pobiera informacje o użytkowniku na podstawie identyfikatora.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: Identyfikator użytkownika.
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Pomyślnie pobrano informacje o użytkowniku.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     user_info_id:
+ *                       type: string
+ *                     name:
+ *                       type: string
+ *                     surname:
+ *                       type: string
+ *                     phone:
+ *                       type: string
+ *                     address:
+ *                       type: string
+ *       500:
+ *         description: Nie udało się znaleźć użytkownika o podanym identyfikatorze.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ */
+
+
 export async function GET(request: NextRequest, {params}: {params: {id: string}}) {
   const id = params.id
   let userInfo

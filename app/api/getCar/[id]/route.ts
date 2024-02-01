@@ -1,6 +1,73 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
+/**
+ * @swagger
+ * /api/getCar/{id}:
+ *   get:
+ *     description: Pobiera informacje o samochodzie o określonym identyfikatorze.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: Identyfikator samochodu.
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Pomyślnie pobrano informacje o samochodzie.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 car_id:
+ *                   type: string
+ *                 name:
+ *                   type: string
+ *                 description:
+ *                   type: string
+ *                 photos:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       photo_id:
+ *                         type: string
+ *                       photo_url:
+ *                         type: string
+ *                 user_info:
+ *                   type: object
+ *                   properties:
+ *                     name:
+ *                       type: string
+ *                     surname:
+ *                       type: string
+ *                     phone:
+ *                       type: string
+ *                     address:
+ *                       type: string
+ *       404:
+ *         description: Samochód o podanym identyfikatorze nie został znaleziony.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *       500:
+ *         description: Wystąpił błąd serwera podczas pobierania danych samochodu.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ */
+
+
 export async function GET(req: NextRequest, {params}: {params: {id: string}}) {
   const id  = params.id;
   

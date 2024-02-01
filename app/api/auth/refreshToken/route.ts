@@ -4,6 +4,43 @@ import { getEnvVariable, getErrorResponse } from "@/lib/helpers";
 import { prisma } from "@/lib/prisma";
 import { ZodError } from "zod";
 
+/**
+ * @swagger
+ * /api/auth/refresh-token:
+ *   post:
+ *     description: Aktualizuje token JWT za pomocą refresh tokenu.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               refreshToken:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Pomyślnie zaktualizowano token JWT.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                 token:
+ *                   type: string
+ *                 expiresIn:
+ *                   type: number
+ *       401:
+ *         description: Nieprawidłowy lub brak refresh tokenu.
+ *       400:
+ *         description: Nieudane walidacje.
+ *       500:
+ *         description: Błąd serwera podczas aktualizacji tokenu.
+ */
+
+
 export async function POST(req: NextRequest) {
   try {
     const refreshTokenHeader = req.headers.get("RefreshAuthorization");
